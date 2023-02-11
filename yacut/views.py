@@ -1,7 +1,7 @@
 import os
 import random
 import string
-from flask import render_template, send_from_directory, flash, redirect, abort
+from flask import render_template, send_from_directory, flash, redirect
 from yacut import app, db, forms, models
 from pathlib import Path
 
