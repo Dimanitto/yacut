@@ -33,7 +33,7 @@ def index_view():
         custom_id = form.custom_id.data
         if not custom_id:
             custom_id = get_unique_short_id()
-        if models.URLMap.query.filter_by(short=custom_id).first():
+        if models.URLMap.query.filter_by(short=custom_id).first() is not None:
             flash(f'Имя {custom_id} уже занято!', 'unique-error')
             return render_template('url_map.html', form=form)
         url_map = models.URLMap(
@@ -48,7 +48,5 @@ def index_view():
 
 @app.route('/<string:short_id>')
 def redirect_view(short_id):
-    url = models.URLMap.query.filter_by(short=short_id).first()
-    if not url:
-        abort(404)
+    url = models.URLMap.query.filter_by(short=short_id).first_or_404()
     return redirect(url.original)
